@@ -1,0 +1,31 @@
+
+{% extends "_base_center_content.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}My Profile{% endblock title %}
+
+{% block center_content %}
+<div class="card mx-4">
+    <div class="card-header">
+        <h1>Profile for {{user.email}}</h1>
+    </div>
+    <div class="card-body p-4">
+        <h2>
+            {% if user.first_name %}
+                {{ user.first_name}}
+            {% endif %}
+            {% if user.last_name %}
+                {{ user.last_name}}
+            {% endif %}
+        </h2>
+        <br />
+        <br />
+        <br />
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-secondary" href="{% url 'profile_edit' user.pk %}"><span class="cil-settings btn-icon mr-2"></span>Edit</a>
+            <a class="btn btn-primary" href="{% url 'payment_info_edit' user.pk %}"><span class="cil-settings btn-icon mr-2"></span>Edit Payment Info</a>
+            <a class="btn btn-outline-primary" href="{% url 'account_change_password' %}">Change Password</a>
+        </div>
+    </div>
+</div>
+{% endblock center_content %}

@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+<div class="c-app d-flex align-items-center justify-content-center">
+    <div class="container">
+        <div class="row justify-content-center">
+        <div class="col-md-6">
+            {% block center_content %}
+            {% endblock center_content %}
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

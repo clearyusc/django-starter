@@ -1,0 +1,67 @@
+{% extends "_base_center_content.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Set Up Payment Info{% endblock title %}
+
+{% block center_content %}
+<div class="card mx-4">
+    <div class="card-body p-4">
+        <h1>Set Up Payment Info</h1>
+        <p class="text-muted">So you can use our service</p>
+        <form method="post">
+            {% csrf_token %}        
+            <!-- <button class="btn btn-block btn-success" type="submit">Save</button> -->
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text cil-user"></span>
+                </div>
+                <input id="cardholder-name" type="text" class="form-control" placeholder="Cardholder's name">
+            </div>
+            <div class="my-1" id="card-element"></div>
+            <br/>
+            <button class="btn btn-success" id="card-button" data-secret="{{ client_secret }}" type="submit">
+            Save Card
+            </button>
+        </form>        
+    </div>
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+(function() {
+  'use strict';
+    var stripe = Stripe('pk_test_LLVFjbLJEiW9n8WhPcjP9gja0026hsEjxK');
+
+    var elements = stripe.elements();
+    var cardElement = elements.create('card', {
+        'classes': {
+            'base': 'form-control',
+        },
+    });
+    cardElement.mount('#card-element');
+    var cardholderName = document.getElementById('cardholder-name');
+    var cardButton = document.getElementById('card-button');
+    var clientSecret = cardButton.dataset.secret;
+
+    cardButton.addEventListener('click', function(ev) {
+
+    stripe.confirmCardSetup(
+        clientSecret,
+        {
+        payment_method: {
+            card: cardElement,
+            billing_details: {
+            name: cardholderName.value,
+            },
+        },
+        }
+    ).then(function(result) {
+        if (result.error) {
+        // Display error.message in your UI.
+        } else {
+        // The setup has succeeded. Display a success message.
+        }
+    });
+    });
+    })();
+</script>
+{% endblock center_content %}
